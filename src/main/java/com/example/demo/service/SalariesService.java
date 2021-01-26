@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.SalariesRepository;
-import com.example.demo.dto.QueryItems;
 import com.example.demo.entity.Salaries;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +52,14 @@ public class SalariesService {
     }
 
     public List<Salaries> findAll() {
+        return salariesRepository.findAll();
+    }
+
+    public int select(Salaries randomSalary) {
+        return salariesRepository.countSelect(randomSalary.getEmp_no(), randomSalary.getSalary(), randomSalary.getFrom_date(), randomSalary.getTo_date());
+    }
+
+    public List<Salaries> selectAll() {
         return salariesRepository.findAll();
     }
 }

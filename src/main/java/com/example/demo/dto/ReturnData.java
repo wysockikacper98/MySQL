@@ -7,6 +7,6 @@ public class ReturnData {
 
     private Long iloscDanych;
     private Long iloscWybranychDanych;
-    private double czasOpreacji;
+    private int czasOpreacji;
 
 }

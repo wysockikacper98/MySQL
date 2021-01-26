@@ -4,19 +4,17 @@ package com.example.demo.controller;
 import com.example.demo.dto.ReturnData;
 import com.example.demo.entity.Salaries;
 import com.example.demo.service.SalariesService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/mysql")
 public class AppController {
@@ -33,12 +31,14 @@ public class AppController {
     public ReturnData mysql() {
         ReturnData data = new ReturnData();
         data.setIloscWybranychDanych(0L);
+        List<Salaries> salariesList = new ArrayList<>();
 
         Long start = System.nanoTime();
-        data.setIloscDanych(salariesService.countDane());
+        salariesList = salariesService.selectAll();
         Long finish = System.nanoTime();
 
-        data.setCzasOpreacji((finish - start) / 1_000_000.0);
+        data.setIloscDanych(salariesService.countDane());
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
         return data;
     }
 
@@ -54,7 +54,7 @@ public class AppController {
         salariesService.deleteRandom(salaries);
         Long finish = System.nanoTime();
 
-        data.setCzasOpreacji((finish - start) / 1_000_000.0);
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
 
         data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
         return data;
@@ -74,7 +74,7 @@ public class AppController {
         salariesService.updateRandom(salaries);
         Long finish = System.nanoTime();
 
-        data.setCzasOpreacji((finish - start) / 1_000_000.0);
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
 
         data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
         return data;
@@ -96,14 +96,15 @@ public class AppController {
         salariesService.insertRandom(salaries);
         Long finish = System.nanoTime();
 
-        data.setCzasOpreacji((finish - start) / 1_000_000.0);
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
         data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
         data.setIloscDanych(salariesService.countDane());
         return data;
     }
 
-    @GetMapping("/double")
-    public ReturnData addMil(){
+    //podwaja wielkość bazy danych, działa ultra słabo
+    @GetMapping("/double/double/double")
+    public ReturnData addMil() {
         ReturnData data = new ReturnData();
         data.setIloscDanych(salariesService.countDane());
         List<Salaries> salariesList = salariesService.findAll();
@@ -121,12 +122,27 @@ public class AppController {
         salariesService.doubleUP(salariesDoubleList);
         Long finish = System.nanoTime();
 
-        data.setCzasOpreacji((finish - start) / 1_000_000.0);
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
         data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
         data.setIloscDanych(salariesService.countDane());
         return data;
 
     }
 
+    //bardziej skąplikowany select
+    @GetMapping("/select")
+    public ReturnData select() {
+        ReturnData data = new ReturnData();
+        data.setIloscDanych(salariesService.countDane());
+        Salaries salaries = salariesService.findRandom();
+
+        Long start = System.nanoTime();
+        data.setIloscWybranychDanych((long) salariesService.select(salaries));
+        Long finish = System.nanoTime();
+
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
+
+        return data;
+    }
 
 }
