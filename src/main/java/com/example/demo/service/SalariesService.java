@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.SalariesRepository;
+import com.example.demo.dto.SalariesWhere;
 import com.example.demo.entity.Salaries;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class SalariesService {
     }
 
     public Salaries findRandom() {
-        List<Salaries> salariesList = salariesRepository.findAll();
+        List<Salaries> salariesList = salariesRepository.showCouple();
         Random random = new Random();
         int selected = random.nextInt(salariesList.size());
         System.out.println("Wybrany rekord: " + selected);
@@ -35,10 +36,10 @@ public class SalariesService {
     }
 
     public void updateRandom(Salaries salaries) {
-        System.out.println("Salary before update:"+salaries.getSalary());
+        System.out.println("Salary before update:" + salaries.getSalary());
         salaries.setSalary(String.valueOf(Integer.parseInt(salaries.getSalary()) + 13));
         salariesRepository.save(salaries);
-        System.out.println("Salary after update:"+salaries.getSalary());
+        System.out.println("Salary after update:" + salaries.getSalary());
     }
 
     public void insertRandom(Salaries salaries) {
@@ -47,19 +48,19 @@ public class SalariesService {
 
 
 
-    public void doubleUP(List<Salaries> salariesDoubleList) {
-        salariesRepository.saveAll(salariesDoubleList);
-    }
-
-    public List<Salaries> findAll() {
-        return salariesRepository.findAll();
-    }
-
     public int select(Salaries randomSalary) {
         return salariesRepository.countSelect(randomSalary.getEmp_no(), randomSalary.getSalary(), randomSalary.getFrom_date(), randomSalary.getTo_date());
     }
 
     public List<Salaries> selectAll() {
-        return salariesRepository.findAll();
+        return salariesRepository.showMilion();
+    }
+
+    public List<Salaries> group() {
+        return salariesRepository.group();
+    }
+
+    public List<SalariesWhere> where() {
+        return salariesRepository.where();
     }
 }
