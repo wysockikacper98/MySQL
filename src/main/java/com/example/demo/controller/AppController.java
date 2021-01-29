@@ -181,11 +181,26 @@ public class AppController {
         ReturnData data = new ReturnData();
         data.setIloscWybranychDanych(salariesService.countDane());
         Long start = System.nanoTime();
-//        salariesService.insertFromFile("C:\\Users\\razoh\\Desktop\\PAB Projkect\\MySQL\\src\\main\\resources\\salaries.csv");
         salariesService.insertFromFile("salaries.csv");
         Long finish = System.nanoTime();
         data.setIloscDanych(salariesService.countDane());
         data.setIloscWybranychDanych(data.getIloscDanych() - data.getIloscWybranychDanych());
+
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
+
+        return data;
+    }
+
+
+    @GetMapping("/delete-all-data-in-the-table")
+    public ReturnData delete(){
+        ReturnData data = new ReturnData();
+        data.setIloscWybranychDanych(salariesService.countDane());
+
+        Long start = System.nanoTime();
+        salariesService.deleteAllDataInTheTable();
+        Long finish = System.nanoTime();
+        data.setIloscDanych(salariesService.countDane());
 
         data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
 

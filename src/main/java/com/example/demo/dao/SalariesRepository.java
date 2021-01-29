@@ -41,4 +41,8 @@ public interface SalariesRepository extends JpaRepository<Salaries, Integer> {
     @Query(nativeQuery = true, value = "LOAD DATA INFILE :fileName INTO TABLE salaries.salaries (emp_no, salary, from_date, to_date) SET id = NULL")
     void importFromFile(@Param("fileName") String filePath);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "delete from salaries.salaries where id > 0")
+    void deleteAllDataInTheTable();
 }

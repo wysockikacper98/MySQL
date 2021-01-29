@@ -67,4 +67,8 @@ public class SalariesService {
     public void insertFromFile(String filePath) {
         salariesRepository.importFromFile(filePath);
     }
+
+    public void deleteAllDataInTheTable() {
+        salariesRepository.deleteAllDataInTheTable();
+    }
 }
