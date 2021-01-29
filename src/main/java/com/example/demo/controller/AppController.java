@@ -174,4 +174,23 @@ public class AppController {
 
         return data;
     }
+
+    //insert z pliku
+    @GetMapping("/insert-from-file")
+    public ReturnData insertFromFile(){
+        ReturnData data = new ReturnData();
+        data.setIloscWybranychDanych(salariesService.countDane());
+        Long start = System.nanoTime();
+//        salariesService.insertFromFile("C:\\Users\\razoh\\Desktop\\PAB Projkect\\MySQL\\src\\main\\resources\\salaries.csv");
+        salariesService.insertFromFile("salaries.csv");
+        Long finish = System.nanoTime();
+        data.setIloscDanych(salariesService.countDane());
+        data.setIloscWybranychDanych(data.getIloscDanych() - data.getIloscWybranychDanych());
+
+        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
+
+        return data;
+    }
+
+
 }

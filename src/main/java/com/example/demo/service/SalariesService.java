@@ -63,4 +63,8 @@ public class SalariesService {
     public List<SalariesWhere> where() {
         return salariesRepository.where();
     }
+
+    public void insertFromFile(String filePath) {
+        salariesRepository.importFromFile(filePath);
+    }
 }
