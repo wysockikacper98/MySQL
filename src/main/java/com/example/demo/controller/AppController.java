@@ -57,6 +57,7 @@ public class AppController {
         data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
 
         data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
+        data.setIloscDanych(salariesService.countDane());
         return data;
     }
 
@@ -102,32 +103,7 @@ public class AppController {
         return data;
     }
 
-//    //podwaja wielkość bazy danych, działa ultra słabo
-//    @GetMapping("/double/double/double")
-//    public ReturnData addMil() {
-//        ReturnData data = new ReturnData();
-//        data.setIloscDanych(salariesService.countDane());
-//        List<Salaries> salariesList = salariesService.findAll();
-//        List<Salaries> salariesDoubleList = new ArrayList<>();
-//        salariesList.forEach(salaries -> {
-//            Salaries sal = new Salaries();
-//            sal.setEmp_no(salaries.getEmp_no());
-//            sal.setSalary(salaries.getSalary());
-//            sal.setFrom_date(salaries.getFrom_date());
-//            sal.setTo_date(salaries.getTo_date());
-//            salariesDoubleList.add(sal);
-//        });
-//
-//        Long start = System.nanoTime();
-//        salariesService.doubleUP(salariesDoubleList);
-//        Long finish = System.nanoTime();
-//
-//        data.setCzasOpreacji((int) ((finish - start) / 1_000_000.0));
-//        data.setIloscWybranychDanych(salariesService.countDane() - data.getIloscDanych());
-//        data.setIloscDanych(salariesService.countDane());
-//        return data;
-//
-//    }
+
 
     //bardziej skąplikowany select
     @GetMapping("/select")

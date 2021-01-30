@@ -43,6 +43,6 @@ public interface SalariesRepository extends JpaRepository<Salaries, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "delete from salaries.salaries where id > 0")
+    @Query(nativeQuery = true, value = "delete from salaries.salaries")
     void deleteAllDataInTheTable();
 }
